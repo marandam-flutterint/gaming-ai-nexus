@@ -28,9 +28,23 @@ class MultiAgentOrchestrator:
             """
         )
 
+        architect = AgentFactory.get("architecture")
+        architecture = architect.invoke(
+        f"""
+        Using the implementation plan and research below, design a production-ready AWS architecture.
+
+        Implementation Plan:
+        {plan}
+
+        Research:
+        {research}
+        """
+        )
+
         return {
             "plan": plan,
-            "research": research
+            "research": research,
+            "architecture": architecture
         }
 
         result = planner.invoke(request)

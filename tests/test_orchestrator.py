@@ -11,3 +11,6 @@ print(result["plan"])
 
 print("\n===== RESEARCH =====\n")
 print(result["research"])
+
+print("\n===== ARCHITECTURE =====\n")
+print(result["architecture"])

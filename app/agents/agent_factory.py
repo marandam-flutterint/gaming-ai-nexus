@@ -1,5 +1,6 @@
 from app.agents.planner_agent import PlannerAgent
 from app.agents.research_agent import ResearchAgent
+from app.agents.architecture_agent import ArchitectureAgent
 
 
 class AgentFactory:
@@ -9,6 +10,7 @@ class AgentFactory:
     _registry = {
         "planner": PlannerAgent,
         "research": ResearchAgent,
+        "architecture": ArchitectureAgent,
     }
 
     @classmethod
