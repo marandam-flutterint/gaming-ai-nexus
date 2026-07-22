@@ -24,4 +24,8 @@ class Settings:
         raise ValueError("BEDROCK_MODEL_ID is not configured")
 
 
-settings = Settings()
+settings = Settings(
+    MAX_TOKENS = int(os.getenv("MAX_TOKENS", "512")),
+    TEMPERATURE = float(os.getenv("TEMPERATURE", "0.5")),
+    TOP_P = float(os.getenv("TOP_P", "0.9"))
+)
