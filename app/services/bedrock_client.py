@@ -21,7 +21,11 @@ class BedrockClient:
 
         logger.info(f"Using model: {self.model_id}")
 
-    def invoke_model(self, prompt: str) -> str:
+    def invoke_model(
+            self, 
+            user_prompt: str,
+            system_prompt: str | None = None
+    ): 
 
         try:
 
@@ -29,12 +33,17 @@ class BedrockClient:
 
             response = self.client.converse(
                 modelId=self.model_id,
+                system=[
+                            {
+                                "text": system_prompt
+                            }
+                ]if system_prompt else [],
                 messages=[
                     {
                         "role": "user",
                         "content": [
                             {
-                                "text": prompt
+                                "text": user_prompt
                             }
                         ]
                     }

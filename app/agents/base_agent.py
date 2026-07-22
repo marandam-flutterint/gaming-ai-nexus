@@ -1,4 +1,5 @@
 from app.services.bedrock_client import BedrockClient
+from app.config.logging_config import logger
 
 
 class BaseAgent:
@@ -11,12 +12,11 @@ class BaseAgent:
 
     def invoke(self, user_prompt: str):
 
-        prompt = f"""
-{self.system_prompt}
+        logger.info(f"Executing {self.__class__.__name__}")
 
-User Request:
 
-{user_prompt}
-"""
+        return self.llm.invoke_model(
+            user_prompt=user_prompt,
+            system_prompt=self.system_prompt
 
-        return self.llm.invoke_model(prompt)
+        )
