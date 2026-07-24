@@ -1,9 +1,9 @@
-from app.agents.planner_agent import PlannerAgent
-from app.agents.research_agent import ResearchAgent
-from app.agents.architecture_agent import ArchitectureAgent
+from app.services.bedrock_client import BedrockClient
 
 
 class AgentFactory:
+
+    _llm = BedrockClient()
 
     _instances = {}
 
@@ -14,13 +14,10 @@ class AgentFactory:
     }
 
     @classmethod
-    def get(cls, agent_name: str):
+    def get(cls, name):
 
-        if agent_name not in cls._registry:
-            raise ValueError(f"Unknown agent: {agent_name}")
+        if name not in cls._instances:
 
+            cls._instances[name] = cls._registry[name](cls._llm)
 
-        if agent_name not in cls._instances:
-            cls._instances[agent_name] = cls._registry[agent_name]()
-
-        return cls._instances[agent_name]
+        return cls._instances[name]

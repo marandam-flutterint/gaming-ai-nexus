@@ -1,5 +1,7 @@
 from app.agents.agent_factory import AgentFactory
 from app.config.logging_config import logger
+from app.models.orchestrator_context import OrchestratorContext
+from app.models.orchestrator_response import OrchestratorResponse
 
 
 class MultiAgentOrchestrator:
@@ -10,43 +12,31 @@ class MultiAgentOrchestrator:
 
     def execute(self, request: str):
 
-        logger.info("Selecting PlannerAgent")
+        logger.info("Creating orchestration context")
+
+        context = OrchestratorContext(
+            user_request=request
+        )
 
         planner = AgentFactory.get("planner")
-
-        plan = planner.invoke(request)
-
-        logger.info("Step 2: ResearchAgent")
-
         researcher = AgentFactory.get("research")
-
-        research = researcher.invoke(
-            f"""
-            Review and enhance the following implementation plan.
-
-            {plan}
-            """
-        )
-
         architect = AgentFactory.get("architecture")
-        architecture = architect.invoke(
-        f"""
-        Using the implementation plan and research below, design a production-ready AWS architecture.
 
-        Implementation Plan:
-        {plan}
+        planner.execute(context)
 
-        Research:
-        {research}
-        """
+        researcher.execute(context)
+
+        architect.execute(context)
+
+        logger.info("Workflow completed")
+
+        logger.info(context.execution_log)
+
+        return OrchestratorResponse(
+            user_request=context.user_request,
+            plan=context.plan,
+            research=context.research,
+            architecture=context.architecture,
         )
 
-        return {
-            "plan": plan,
-            "research": research,
-            "architecture": architecture
-        }
-
-        result = planner.invoke(request)
-
-        return result
+        
