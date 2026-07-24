@@ -1,6 +1,8 @@
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional
 
+from app.agents.agent_result import AgentResult
+
 
 @dataclass
 class OrchestratorContext:
@@ -10,10 +12,10 @@ class OrchestratorContext:
 
     user_request: str
 
-    plan: Optional[str] = None
-    research: Optional[str] = None
-    architecture: Optional[str] = None
-    final_response: Optional[str] = None
+    plan: Optional[AgentResult] = None
+    research: Optional[AgentResult] = None
+    architecture: Optional[AgentResult] = None
+    final_response: Optional[AgentResult] = None
 
     metadata: Dict[str, Any] = field(default_factory=dict)
 

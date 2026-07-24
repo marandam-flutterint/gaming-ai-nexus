@@ -1,5 +1,10 @@
 from app.services.bedrock_client import BedrockClient
 
+from app.agents.planner_agent import PlannerAgent
+from app.agents.research_agent import ResearchAgent
+from app.agents.architecture_agent import ArchitectureAgent
+from app.agents.response_synthesizer_agent import ResponseSynthesizerAgent
+
 
 class AgentFactory:
 
@@ -11,7 +16,8 @@ class AgentFactory:
         "planner": PlannerAgent,
         "research": ResearchAgent,
         "architecture": ArchitectureAgent,
-    }
+        "synthesizer": ResponseSynthesizerAgent,
+}
 
     @classmethod
     def get(cls, name):
